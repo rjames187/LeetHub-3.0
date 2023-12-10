@@ -23,7 +23,7 @@ const languages = {
   Scala: '.scala',
   Swift: '.swift',
   TypeScript: '.ts',
-}
+};
 
 /* Commit messages */
 const readmeMsg = 'Create README - LeetHub';
@@ -42,7 +42,7 @@ let uploadState = { uploading: false };
 
 /* Main function for uploading code to GitHub repo, and callback cb is called if success */
 const upload = (token, hook, code, problem, filename, sha, commitMsg, cb = undefined) => {
-  const URL = `https://api.github.com/repos/${hook}/contents/${problem}/${filename}`;
+  const URL = `https://api.github.com/repos/${hook}/contents/${filename}`;
 
   /* Define Payload */
   let data = {
@@ -147,12 +147,12 @@ const update = (
     .then(existingContent =>
       shouldPreprendDiscussionPosts
         ? // https://web.archive.org/web/20190623091645/https://monsur.hossa.in/2012/07/20/utf-8-in-javascript.html
-        // In order to preserve mutation of the data, we have to encode it, which is usually done in base64.
-        // But btoa only accepts ASCII 7 bit chars (0-127) while Javascript uses 16-bit minimum chars (0-65535).
-        // EncodeURIComponent converts the Unicode Points UTF-8 bits to hex UTF-8.
-        // Unescape converts percent-encoded hex values into regular ASCII (optional; it shrinks string size).
-        // btoa converts ASCII to base64.
-        btoa(unescape(encodeURIComponent(addition + existingContent)))
+          // In order to preserve mutation of the data, we have to encode it, which is usually done in base64.
+          // But btoa only accepts ASCII 7 bit chars (0-127) while Javascript uses 16-bit minimum chars (0-65535).
+          // EncodeURIComponent converts the Unicode Points UTF-8 bits to hex UTF-8.
+          // Unescape converts percent-encoded hex values into regular ASCII (optional; it shrinks string size).
+          // btoa converts ASCII to base64.
+          btoa(unescape(encodeURIComponent(addition + existingContent)))
         : btoa(unescape(encodeURIComponent(existingContent))),
     )
     .then(newContent =>
@@ -160,7 +160,7 @@ const update = (
     );
 };
 
-function uploadGit(
+function uploadGit (
   code,
   problemName,
   fileName,
@@ -237,7 +237,7 @@ function uploadGit(
 }
 
 /* Gets updated GitHub data for the specific file in repo in question */
-async function getUpdatedData(token, hook, directory, filename) {
+async function getUpdatedData (token, hook, directory, filename) {
   const URL = `https://api.github.com/repos/${hook}/contents/${directory}/${filename}`;
 
   let options = {
@@ -258,11 +258,11 @@ async function getUpdatedData(token, hook, directory, filename) {
 }
 
 /* Checks if an elem/array exists and has length */
-function checkElem(elem) {
+function checkElem (elem) {
   return elem && elem.length > 0;
 }
 
-function convertToSlug(string) {
+function convertToSlug (string) {
   const a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;';
   const b = 'aaaaaaaaaacccddeeeeeeeegghiiiiiilmnnnnoooooooooprrsssssttuuuuuuuuuwxyyzzz------';
   const p = new RegExp(a.split('').join('|'), 'g');
@@ -279,7 +279,7 @@ function convertToSlug(string) {
     .replace(/-+$/, ''); // Trim - from end of text
 }
 
-function addLeadingZeros(title) {
+function addLeadingZeros (title) {
   const maxTitlePrefixLength = 4;
   var len = title.split('-')[0].length;
   if (len < maxTitlePrefixLength) {
@@ -288,7 +288,7 @@ function addLeadingZeros(title) {
   return title;
 }
 
-function formatStats(time, timePercentile, space, spacePercentile) {
+function formatStats (time, timePercentile, space, spacePercentile) {
   return `Time: ${time} (${timePercentile}%), Space: ${space} (${spacePercentile}%) - LeetHub`;
 }
 
@@ -301,11 +301,10 @@ document.addEventListener('click', event => {
   /* Complex since "New" button shares many of the same properties as "Post button */
   if (
     element.classList.contains('icon__3Su4') ||
-    (element.parentElement != null && (
-      element.parentElement.classList.contains('icon__3Su4') ||
-      element.parentElement.classList.contains('btn-content-container__214G') ||
-      element.parentElement.classList.contains('header-right__2UzF')
-    ))
+    (element.parentElement != null &&
+      (element.parentElement.classList.contains('icon__3Su4') ||
+        element.parentElement.classList.contains('btn-content-container__214G') ||
+        element.parentElement.classList.contains('header-right__2UzF')))
   ) {
     setTimeout(function () {
       /* Only post if post button was clicked and url changed */
@@ -313,7 +312,7 @@ document.addEventListener('click', event => {
         oldPath !== window.location.pathname &&
         oldPath === window.location.pathname.substring(0, oldPath.length) &&
         !Number.isNaN(window.location.pathname.charAt(oldPath.length))
-        ) {
+      ) {
         const date = new Date();
         const currentDate = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} at ${date.getHours()}:${date.getMinutes()}`;
         const addition = `[Discussion Post (created on ${currentDate})](${window.location})  \n`;
@@ -325,12 +324,12 @@ document.addEventListener('click', event => {
   }
 });
 
-function LeetCodeV1() {
+function LeetCodeV1 () {
   this.progressSpinnerElementId = 'leethub_progress_elem';
   this.progressSpinnerElementClass = 'leethub_progress';
   this.injectSpinnerStyle();
 }
-LeetCodeV1.prototype.init = async function () { };
+LeetCodeV1.prototype.init = async function () {};
 /* Function for finding and parsing the full code. */
 /* - At first find the submission details url. */
 /* - Then send a request for the details page. */
@@ -640,20 +639,21 @@ LeetCodeV1.prototype.markUploadFailed = function () {
   }
 };
 
-function LeetCodeV2() {
+function LeetCodeV2 () {
   this.submissionData;
   this.progressSpinnerElementId = 'leethub_progress_elem';
   this.progressSpinnerElementClass = 'leethub_progress';
   this.injectSpinnerStyle();
 }
 LeetCodeV2.prototype.init = async function () {
-  async function getSubmissionId() {
+  async function getSubmissionId () {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const submissionsId = document.URL.match(/\/(\d+)(\/|\?|$)/);
-        if (submissionsId !== null){
-            resolve(submissionsId[1]); // '/problems/two-sum/post-solution?submissionId/999594717
-        }}, 4000);
+        if (submissionsId !== null) {
+          resolve(submissionsId[1]); // '/problems/two-sum/post-solution?submissionId/999594717
+        }
+      }, 4000);
     });
   }
   const submissionId = await getSubmissionId();
@@ -730,13 +730,12 @@ LeetCodeV2.prototype.getLanguageExtension = function () {
 
   return languages[lang];
 };
-LeetCodeV2.prototype.getNotesIfAny = function () { };
+LeetCodeV2.prototype.getNotesIfAny = function () {};
 
-
-LeetCodeV2.prototype.extractQuestionNumber = function() {
+LeetCodeV2.prototype.extractQuestionNumber = function () {
   let qNum = this.submissionData.question.questionId; // Default to questionId
 
-  const content = document.getElementById("qd-content");
+  const content = document.getElementById('qd-content');
   if (content) {
     const elementSelector = 'a[href^="/problems/' + window.location.pathname.split('/')[2] + '/"]';
     const titleElement = content.querySelector(elementSelector);
@@ -747,10 +746,10 @@ LeetCodeV2.prototype.extractQuestionNumber = function() {
         qNum = numbersMatch[1]; // Update qNum if a number is found
       }
     } else {
-      console.log("Element for number not found in the specified container.");
+      console.log('Element for number not found in the specified container.');
     }
   } else {
-    console.log("Content div not found.");
+    console.log('Content div not found.');
   }
   return qNum;
 };
@@ -789,7 +788,7 @@ LeetCodeV2.prototype.parseStats = function () {
   }
 
   // Doesn't work unless we wait for page to finish loading.
-  setTimeout(() => { }, 1000);
+  setTimeout(() => {}, 1000);
   const probStats = document.getElementsByClassName('flex w-full pb-4')[0].innerText.split('\n');
   if (!checkElem(probStats)) {
     return null;
@@ -942,7 +941,7 @@ chrome.storage.local.get('isSync', data => {
   }
 });
 
-const loader = (leetCode) => {
+const loader = leetCode => {
   let iterations = 0;
   const intervalId = setInterval(async () => {
     try {
@@ -1039,7 +1038,7 @@ const loader = (leetCode) => {
 const isMacOS = window.navigator.userAgent.includes('Mac');
 
 // Submit by Keyboard Shortcuts only support on LeetCode v2
-function submitByShortcuts(event, leetCodeV2) {
+function submitByShortcuts (event, leetCodeV2) {
   const isEnterKey = event.key === 'Enter';
 
   // Adapt to MacOS operating system
@@ -1053,9 +1052,14 @@ const observer = new MutationObserver(function (_mutations, observer) {
   const v1SubmitBtn = document.querySelector('[data-cy="submit-code-btn"]');
   const v2SubmitBtn = document.querySelector('[data-e2e-locator="console-submit-button"]');
   const textareaList = document.getElementsByTagName('textarea');
-  const textarea = textareaList.length === 4 ? textareaList[2] : (textareaList.length === 2 ? textareaList[0] : textareaList[1]);
+  const textarea =
+    textareaList.length === 4
+      ? textareaList[2]
+      : textareaList.length === 2
+      ? textareaList[0]
+      : textareaList[1];
 
-  if(v1SubmitBtn) {
+  if (v1SubmitBtn) {
     observer.disconnect();
 
     const leetCode = new LeetCodeV1();
@@ -1063,7 +1067,7 @@ const observer = new MutationObserver(function (_mutations, observer) {
     return;
   }
 
-  if(v2SubmitBtn && textarea) {
+  if (v2SubmitBtn && textarea) {
     observer.disconnect();
 
     const leetCode = new LeetCodeV2();
