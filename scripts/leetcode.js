@@ -980,35 +980,9 @@ const loader = leetCode => {
       // start upload indicator here
       leetCode.startSpinner();
 
-      /* Upload README */
-      const updateReadMe = await chrome.storage.local.get('stats').then(({ stats }) => {
-        const shaExists = stats?.shas?.[problemName]?.['README.md'] !== undefined;
+      /* Upload README used to be here*/
 
-        if (!shaExists) {
-          return uploadGit(
-            btoa(unescape(encodeURIComponent(probStatement))),
-            problemName,
-            'README.md',
-            readmeMsg,
-            'upload',
-            false,
-          );
-        }
-      });
-
-      /* Upload Notes if any*/
-      notes = leetCode.getNotesIfAny();
-      let updateNotes;
-      if (notes != undefined && notes.length > 0) {
-        updateNotes = uploadGit(
-          btoa(unescape(encodeURIComponent(notes))),
-          problemName,
-          'NOTES.md',
-          createNotesMsg,
-          'upload',
-          false,
-        );
-      }
+      /* Upload Notes if any used to be here*/
 
       /* Upload code to Git */
       const updateCode = leetCode.findAndUploadCode(
@@ -1018,7 +992,7 @@ const loader = leetCode => {
         'upload',
       );
 
-      await Promise.all([updateReadMe, updateNotes, updateCode]);
+      await Promise.all([updateCode]);
 
       uploadState.uploading = false;
       leetCode.markUploaded();
